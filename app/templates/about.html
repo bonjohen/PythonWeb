@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>About This Project</h1>
+<p class="lead">This is a template for a Python web application using Flask.</p>
+
+<div class="card mt-4">
+    <div class="card-header">
+        <h2>Technology Stack</h2>
+    </div>
+    <div class="card-body">
+        <ul>
+            <li><strong>Backend:</strong> Flask</li>
+            <li><strong>Database:</strong> SQLAlchemy with SQLite (development) / PostgreSQL (production)</li>
+            <li><strong>Frontend:</strong> HTML, CSS, JavaScript, Bootstrap</li>
+            <li><strong>Authentication:</strong> Flask-Login</li>
+            <li><strong>Forms:</strong> Flask-WTF</li>
+            <li><strong>Testing:</strong> pytest</li>
+        </ul>
+    </div>
+</div>
+
+<div class="card mt-4">
+    <div class="card-header">
+        <h2>Features</h2>
+    </div>
+    <div class="card-body">
+        <ul>
+            <li>User authentication (register, login, logout)</li>
+            <li>Role-based access control</li>
+            <li>Database integration with ORM</li>
+            <li>Responsive design</li>
+            <li>Error handling</li>
+            <li>Testing framework</li>
+        </ul>
+    </div>
+</div>
+{% endblock %}

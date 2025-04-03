@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="jumbotron">
+    <h1 class="display-4">Welcome to Flask Web App</h1>
+    <p class="lead">This is a template for a Python web application using Flask.</p>
+    <hr class="my-4">
+    <p>It provides a foundation for building web applications with user authentication, database integration, and a responsive frontend.</p>
+    <a class="btn btn-primary btn-lg" href="{{ url_for('main.about') }}" role="button">Learn more</a>
+</div>
+
+<div class="row mt-5">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">User Authentication</h5>
+                <p class="card-text">Secure login/logout functionality with user registration and role-based access control.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Database Integration</h5>
+                <p class="card-text">SQLAlchemy ORM with migration support for easy database management.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Responsive Frontend</h5>
+                <p class="card-text">Modern, responsive design using Bootstrap for a great user experience on all devices.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
