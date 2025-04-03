@@ -14,6 +14,10 @@ class User(UserMixin, db.Model):
     is_admin = db.Column(db.Boolean, default=False)
     created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
 
+    # Relationship with cascade delete
+    posts = db.relationship('Post', backref='author', lazy='dynamic',
+                           cascade='all, delete-orphan')
+
     def __init__(self, username, email, password, is_admin=False):
         self.username = username
         self.email = email
