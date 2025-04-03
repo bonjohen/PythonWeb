@@ -18,3 +18,8 @@ def about():
 def dashboard():
     """Dashboard page route (requires login)."""
     return render_template('dashboard.html', title='Dashboard')
+
+@bp.route('/api/docs')
+def api_docs():
+    """API documentation page."""
+    return render_template('api_docs.html', title='API Documentation')

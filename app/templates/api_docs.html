@@ -1,0 +1,222 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1>API Documentation</h1>
+    <p class="lead">This page documents the RESTful API endpoints available in this application.</p>
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <h2>Authentication</h2>
+        </div>
+        <div class="card-body">
+            <p>The API uses HTTP Basic Authentication. Include your username and password in the request header.</p>
+            <pre><code>Authorization: Basic &lt;base64-encoded-credentials&gt;</code></pre>
+            <p>In the future, token-based authentication will be implemented.</p>
+        </div>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <h2>Users</h2>
+        </div>
+        <div class="card-body">
+            <h3>GET /api/v1/users</h3>
+            <p>Get a list of all users.</p>
+            <p><strong>Authentication required:</strong> Yes</p>
+            <p><strong>Response:</strong> 200 OK</p>
+            <pre><code>[
+  {
+    "id": 1,
+    "username": "user1",
+    "email": "user1@example.com",
+    "_links": {
+      "self": "/api/v1/users/1"
+    }
+  },
+  ...
+]</code></pre>
+
+            <h3>GET /api/v1/users/{id}</h3>
+            <p>Get a specific user by ID.</p>
+            <p><strong>Authentication required:</strong> Yes</p>
+            <p><strong>Response:</strong> 200 OK</p>
+            <pre><code>{
+  "id": 1,
+  "username": "user1",
+  "email": "user1@example.com",
+  "created_at": "2023-01-01T00:00:00Z",
+  "_links": {
+    "self": "/api/v1/users/1",
+    "users": "/api/v1/users"
+  }
+}</code></pre>
+
+            <h3>POST /api/v1/users</h3>
+            <p>Create a new user.</p>
+            <p><strong>Authentication required:</strong> No</p>
+            <p><strong>Request body:</strong></p>
+            <pre><code>{
+  "username": "newuser",
+  "email": "newuser@example.com",
+  "password": "password123"
+}</code></pre>
+            <p><strong>Response:</strong> 201 Created</p>
+            <pre><code>{
+  "id": 3,
+  "username": "newuser",
+  "email": "newuser@example.com",
+  "_links": {
+    "self": "/api/v1/users/3"
+  }
+}</code></pre>
+
+            <h3>PUT /api/v1/users/{id}</h3>
+            <p>Update an existing user.</p>
+            <p><strong>Authentication required:</strong> Yes</p>
+            <p><strong>Request body:</strong></p>
+            <pre><code>{
+  "username": "updateduser",
+  "email": "updated@example.com",
+  "password": "newpassword123"
+}</code></pre>
+            <p><strong>Response:</strong> 200 OK</p>
+            <pre><code>{
+  "id": 1,
+  "username": "updateduser",
+  "email": "updated@example.com",
+  "_links": {
+    "self": "/api/v1/users/1"
+  }
+}</code></pre>
+
+            <h3>DELETE /api/v1/users/{id}</h3>
+            <p>Delete a user.</p>
+            <p><strong>Authentication required:</strong> Yes</p>
+            <p><strong>Response:</strong> 204 No Content</p>
+        </div>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <h2>Posts</h2>
+        </div>
+        <div class="card-body">
+            <h3>GET /api/v1/posts</h3>
+            <p>Get a list of all posts.</p>
+            <p><strong>Authentication required:</strong> No</p>
+            <p><strong>Response:</strong> 200 OK</p>
+            <pre><code>[
+  {
+    "id": 1,
+    "title": "First Post",
+    "content": "This is the content of the first post.",
+    "created_at": "2023-01-01T00:00:00Z",
+    "user_id": 1,
+    "_links": {
+      "self": "/api/v1/posts/1",
+      "author": "/api/v1/users/1"
+    }
+  },
+  ...
+]</code></pre>
+
+            <h3>GET /api/v1/posts/{id}</h3>
+            <p>Get a specific post by ID.</p>
+            <p><strong>Authentication required:</strong> No</p>
+            <p><strong>Response:</strong> 200 OK</p>
+            <pre><code>{
+  "id": 1,
+  "title": "First Post",
+  "content": "This is the content of the first post.",
+  "created_at": "2023-01-01T00:00:00Z",
+  "user_id": 1,
+  "_links": {
+    "self": "/api/v1/posts/1",
+    "author": "/api/v1/users/1",
+    "posts": "/api/v1/posts"
+  }
+}</code></pre>
+
+            <h3>POST /api/v1/posts</h3>
+            <p>Create a new post.</p>
+            <p><strong>Authentication required:</strong> Yes</p>
+            <p><strong>Request body:</strong></p>
+            <pre><code>{
+  "title": "New Post",
+  "content": "This is the content of the new post.",
+  "user_id": 1
+}</code></pre>
+            <p><strong>Response:</strong> 201 Created</p>
+            <pre><code>{
+  "id": 3,
+  "title": "New Post",
+  "content": "This is the content of the new post.",
+  "created_at": "2023-01-01T00:00:00Z",
+  "user_id": 1,
+  "_links": {
+    "self": "/api/v1/posts/3",
+    "author": "/api/v1/users/1"
+  }
+}</code></pre>
+
+            <h3>PUT /api/v1/posts/{id}</h3>
+            <p>Update an existing post.</p>
+            <p><strong>Authentication required:</strong> Yes</p>
+            <p><strong>Request body:</strong></p>
+            <pre><code>{
+  "title": "Updated Post",
+  "content": "This is the updated content of the post."
+}</code></pre>
+            <p><strong>Response:</strong> 200 OK</p>
+            <pre><code>{
+  "id": 1,
+  "title": "Updated Post",
+  "content": "This is the updated content of the post.",
+  "created_at": "2023-01-01T00:00:00Z",
+  "user_id": 1,
+  "_links": {
+    "self": "/api/v1/posts/1",
+    "author": "/api/v1/users/1"
+  }
+}</code></pre>
+
+            <h3>DELETE /api/v1/posts/{id}</h3>
+            <p>Delete a post.</p>
+            <p><strong>Authentication required:</strong> Yes</p>
+            <p><strong>Response:</strong> 204 No Content</p>
+        </div>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <h2>Error Responses</h2>
+        </div>
+        <div class="card-body">
+            <h3>400 Bad Request</h3>
+            <pre><code>{
+  "error": "Bad Request",
+  "message": "Must include username, email and password fields"
+}</code></pre>
+
+            <h3>401 Unauthorized</h3>
+            <pre><code>{
+  "error": "Unauthorized",
+  "message": "Invalid credentials"
+}</code></pre>
+
+            <h3>404 Not Found</h3>
+            <pre><code>{
+  "error": "Not Found",
+  "message": "Resource not found"
+}</code></pre>
+
+            <h3>500 Internal Server Error</h3>
+            <pre><code>{
+  "error": "Internal Server Error",
+  "message": "An unexpected error occurred"
+}</code></pre>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -15,22 +15,25 @@ def create_app(config_name='default'):
     """Application factory function."""
     app = Flask(__name__)
     app.config.from_object(config[config_name])
-    
+
     # Initialize extensions with app
     db.init_app(app)
     migrate.init_app(app, db)
     login_manager.init_app(app)
-    
+
     # Register blueprints
     from app.main import bp as main_bp
     app.register_blueprint(main_bp)
-    
+
     from app.errors import bp as errors_bp
     app.register_blueprint(errors_bp)
-    
+
     from app.auth import bp as auth_bp
     app.register_blueprint(auth_bp, url_prefix='/auth')
-    
+
+    from app.api import bp as api_bp
+    app.register_blueprint(api_bp)
+
     return app
 
 # Import models to ensure they are registered with SQLAlchemy
