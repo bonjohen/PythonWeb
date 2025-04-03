@@ -63,7 +63,7 @@ PythonWeb/
 
 ### Phase 5: Deployment
 - [x] Prepare for production
-- [ ] Set up deployment pipeline
+- [x] Set up deployment pipeline
 - [x] Configure server
 - [ ] Deploy application
 

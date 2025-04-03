@@ -290,32 +290,93 @@ All port settings can be configured through environment variables or the `.env` 
 
 ## Deployment
 
-For production deployment:
+This application includes a complete deployment pipeline with Docker, Gunicorn, and Nginx.
 
-1. Set appropriate environment variables:
+### Local Deployment with Docker
+
+1. Create a production environment file:
    ```
-   # Server settings
-   export FLASK_CONFIG=production
-   export PROD_SERVER_HOST=0.0.0.0
-   export PROD_SERVER_PORT=8000
-   export WSGI_SERVER_PORT=8000
-   export WEB_SERVER_HTTP_PORT=80
-   export WEB_SERVER_HTTPS_PORT=443
+   cp .env.production.example .env.production
    ```
 
-2. Configure a production database (PostgreSQL recommended):
+2. Edit the `.env.production` file with your settings
+
+3. Generate SSL certificates for HTTPS:
    ```
-   export DATABASE_URL=postgresql://username:password@localhost:5432/dbname
-   export DB_PORT=5432
+   # On Linux/macOS
+   chmod +x generate_ssl_certs.sh
+   ./generate_ssl_certs.sh
+
+   # On Windows
+   ./generate_ssl_certs.ps1
    ```
 
-3. Use a production WSGI server (Gunicorn, uWSGI):
+4. Build and start the Docker containers:
    ```
-   # Example with Gunicorn
-   gunicorn -w 4 -b 0.0.0.0:8000 "run:app"
+   # On Linux/macOS
+   chmod +x deploy.sh
+   ./deploy.sh --env prod --build
+
+   # On Windows
+   ./deploy.ps1 -Env prod -Build
    ```
 
-4. Set up a reverse proxy (Nginx, Apache) to forward requests from ports 80/443 to the application port
+5. The application will be available at:
+   - HTTP: http://localhost:80 (redirects to HTTPS)
+   - HTTPS: https://localhost:443
+
+### CI/CD Pipeline
+
+The application includes a GitHub Actions workflow for CI/CD:
+
+1. **Continuous Integration**:
+   - Runs tests on every push and pull request
+   - Performs linting checks
+
+2. **Continuous Deployment**:
+   - Builds a Docker image on successful merge to main/master
+   - Pushes the image to Docker Hub
+   - Deploys to the production server
+
+### Manual Production Deployment
+
+1. Set up a server with Docker and Docker Compose installed
+
+2. Clone the repository and navigate to the project directory
+
+3. Create a production environment file:
+   ```
+   cp .env.production.example .env.production
+   ```
+
+4. Edit the `.env.production` file with your production settings
+
+5. Generate or install SSL certificates in `nginx/ssl/`
+
+6. Deploy the application:
+   ```
+   # On Linux/macOS
+   chmod +x deploy.sh
+   ./deploy.sh --env prod --build --migrate
+
+   # On Windows
+   ./deploy.ps1 -Env prod -Build -Migrate
+   ```
+
+7. The application will be available at your server's domain or IP address
+
+### Scaling
+
+To scale the application horizontally:
+
+1. Increase the number of web service replicas:
+   ```
+   docker-compose up -d --scale web=3
+   ```
+
+2. Ensure Nginx is configured to load balance between the instances
+
+3. Consider using a managed database service for production
 
 ## License
 
